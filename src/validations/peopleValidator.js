@@ -20,9 +20,9 @@ const bodySchema = Joi.object({
     phone: Joi.string().min(9).max(13).required()
 })
 
-/* const bodyAuthSchema = Joi.object({
+const bodyAuthSchema = Joi.object({
     username: Joi.string().min(6).max(16).required(),
     password: Joi.string().required(),
-}) */
+}) 
 
 module.exports = { paramsSchema, bodySchema, querySchema, bodyAuthSchema }

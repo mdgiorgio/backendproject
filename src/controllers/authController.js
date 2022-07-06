@@ -1,24 +1,34 @@
 const bcrypt = require('bcrypt')
-//const httpStatus = require('../helpers/httpStatus')
+const generateToken = require('../helpers/generateToken')
+const httpStatus = require('../helpers/httpStatus')
 
 const authController = (People) => {
-    const logIn = async (req, res) => {
-        const { body } = req
+    const logIn = async (req, res, next) => {
+        try{ 
+            const { body } = req
         
-        const user = await People.findOne({
-            username: body.username
-        })
+            const user = await People.findOne({
+                username: body.username
+            })
 
-        if(user == null ||
-            !(await bcrypt.compare(body.password, user.password))
-        )   {
-            return res.status(401).send('Invalid credentials')
+            if(user === null ||
+              !(await bcrypt.compare(body.password, user.password))
+            ) {
+                return res.status(httpStatus.FORBIDDEN).send('Invalid credentials')
+            }
+        
+            const token = generateToken()
+
+            return res.status(httpStatus.OK).json({
+                status: 'OK',
+                token
+            })
+        } catch (err) {
+            next(err)
         }
-
-        return res.status(200).send('Logged In')
     }
 
-    const register = async (req, res) => {
+    const register = async (req, res, next) => {
         try {
             const { body } = req
     
@@ -33,9 +43,9 @@ const authController = (People) => {
     
             await people.save()
     
-            res.status(201).json(people)
+            return res.status(httpStatus.CREATED).json(people)
         } catch (err) {
-            res.status(500).send(err.name)
+            next(err)
         }
       }
 

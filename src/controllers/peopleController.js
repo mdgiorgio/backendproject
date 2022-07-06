@@ -8,10 +8,9 @@ const peopleController = (People) => {
 
       const response = await People.find(query)
 
-      return res.status(200).json(response)
+      return res.status(httpStatus.OK).json(response)
     } catch (err) {
       next(err)
-      res.status(500).send(err.name)
     }
   }
 
@@ -26,20 +25,17 @@ const peopleController = (People) => {
         password: encryptedPassword
       }
 
-      const people = await new People(encryptedPassword)
+      const people = await new People(encryptedData)
 
       await people.save()
 
-      return res.status(201).json(people)
+      return res.status(httpStatus.CREATED).json(people)
     } catch (err) {
-      res.status(500).send({
-        error: err.name,
-        cause: err.message
-      })
+      next(err)
     }
   }
 
-  const putPeopleById = async (req, res) => {
+  const putPeopleById = async (req, res, next) => {
     try {
       const { body, params } = req
 
@@ -48,7 +44,7 @@ const peopleController = (People) => {
       })
 
       if (checkData === null) {
-        res.status(403).send('No data found with the provided ID.')
+        return res.status(httpStatus.FORBIDDEN).send('No data found with the provided ID.')
       }
 
       const encryptedPassword = await bcrypt.hash(body.password, 10)
@@ -70,33 +66,33 @@ const peopleController = (People) => {
         }
       )
 
-      res.status(201).send('Data successful updated')
+      return res.status(httpStatus.CREATED).send('Data successful updated')
     } catch (err) {
-      res.status(500).send(err.name)
+      next(err)
     }
   }
 
-  const getPeopleById = async (req, res) => {
+  const getPeopleById = async (req, res, next) => {
    try{ 
       const { params } = req
       
       const response = await People.findById(params.id)
 
-      res.status(200).json(response)
+      return res.status(httpStatus.OK).json(response)
     } catch (err) {
-      res.status(500).send(err.name)
+      next(err)
     }
   }
 
-  const deletePeopleById = async (req, res) => {
+  const deletePeopleById = async (req, res, next) => {
     try{ 
       const { params } = req
 
       const response = await People.findByIdAndDelete(params.id)
 
-      res.status(202).json(response)
+      return res.status(httpStatus.OK).json(response)
     } catch (err) {
-      res.status(500).send(err.name)
+      next(err)
     }
   }
 

@@ -16,13 +16,12 @@ const router = (People) => {
     .post(validator.body(bodySchema), postPeople)
   
   peopleRouter
-    .route('people/:id')
+    .route('/people/:id')
     .get(validator.params(paramsSchema), getPeopleById)
-    .put(validator.body(bodySchema),putPeopleById)
+    .put(validator.body(bodySchema), putPeopleById)
     .delete(validator.params(paramsSchema), deletePeopleById)
   
   return peopleRouter
 }
 
 module.exports = router
-
