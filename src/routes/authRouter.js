@@ -9,7 +9,7 @@ const router = (People) => {
 
     authRouter.route('/auth/login').post(logIn)
 
-    authRouter.route('auth/register').post(register)
+    authRouter.route('/auth/register').post(register)
 
     return authRouter
 }

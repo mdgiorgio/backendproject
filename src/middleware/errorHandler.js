@@ -1,5 +1,22 @@
 const ERROR_HANDLERS = {
-    defaultError: (res, err) =>{
+    ValidationError: (res, err) => {
+        res
+            .status(422)
+            .send({ error: err.name, 
+                cause: err.message,
+                message: 'Enter the data please'})
+    },
+
+    MongoServerError: (res, err) => {
+        res
+            .status(400)
+            .send({ 
+                error: err.name,
+                cause: err.message, 
+                message: 'Please, try with other data' })
+    },
+
+    defaultError: (res, err) => {
         // por defecto para preveer errores 500; puedo agregar los necesarios
         res
             .status(500)

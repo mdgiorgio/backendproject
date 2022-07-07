@@ -7,13 +7,12 @@ const  { paramsSchema, bodySchema, querySchema } = require('../validations/peopl
 const router = (People) => {
   const peopleRouter = express.Router()
 
-  const { getAllPeople, getPeopleById, postPeople, putPeopleById, deletePeopleById } =
+  const { getAllPeople, getPeopleById, putPeopleById, deletePeopleById } =
   peopleController(People)
 
   peopleRouter
     .route('/people')
     .get(validator.query(querySchema), getAllPeople)
-    .post(validator.body(bodySchema), postPeople)
   
   peopleRouter
     .route('/people/:id')

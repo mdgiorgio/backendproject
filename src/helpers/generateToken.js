@@ -3,9 +3,9 @@ const jwt = require('jsonwebtoken')
 const generateToken = () => {
   const token = jwt.sign(
     {
-      data: 'Aquí van los datos'
+      data: 'Info here'
     },
-    'UnaContraseñaSecreta',
+    process.env.SECRET,
     //{ expiresIn: '1h' }
   )
 

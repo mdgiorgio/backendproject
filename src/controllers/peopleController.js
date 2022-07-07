@@ -14,27 +14,6 @@ const peopleController = (People) => {
     }
   }
 
-  const postPeople = async (req, res, next) =>{
-    try {
-      const { body } = req
-      
-      const encryptedPassword = await bcrypt.hash(body.password, 10)
-
-      const encryptedData = {
-        ...body,
-        password: encryptedPassword
-      }
-
-      const people = await new People(encryptedData)
-
-      await people.save()
-
-      return res.status(httpStatus.CREATED).json(people)
-    } catch (err) {
-      next(err)
-    }
-  }
-
   const putPeopleById = async (req, res, next) => {
     try {
       const { body, params } = req
@@ -99,7 +78,6 @@ const peopleController = (People) => {
   return {
     getAllPeople,
     getPeopleById,
-    postPeople,
     putPeopleById,
     deletePeopleById
   }

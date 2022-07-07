@@ -11,7 +11,8 @@ const authController = (People) => {
                 username: body.username
             })
 
-            if(user === null ||
+            if(
+                user === null ||
               !(await bcrypt.compare(body.password, user.password))
             ) {
                 return res.status(httpStatus.FORBIDDEN).send('Invalid credentials')
