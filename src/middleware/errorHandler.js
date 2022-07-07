@@ -1,4 +1,12 @@
 const ERROR_HANDLERS = {
+    UnauthorizedError: (res, err) => {
+        res
+            .status(401)
+            .send({ error: err.name, 
+                cause: err.message,
+                message: 'Login to access'})
+    },
+    
     ValidationError: (res, err) => {
         res
             .status(422)

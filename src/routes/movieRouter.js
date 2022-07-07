@@ -5,23 +5,23 @@ const  { paramsSchema, bodySchema, querySchema } = require('../validations/movie
 
 
 const router = (Movie) => {
-  const Router = express.Router()
+  const movieRouter = express.Router()
 
   const { getAllMovies, postMovies, putMovieById, getMovieById, deleteMovieById } =
   movieController(Movie)
 
-  peopleRouter
+  movieRouter
     .route('/movie')
     .get(validator.query(querySchema), getAllMovies)
     .post(validator.body(bodySchema), postMovies)
   
-  peopleRouter
+    movieRouter
     .route('/movie/:id')
     .get(validator.params(paramsSchema), getMovieById)
     .put(validator.body(bodySchema), putMovieById)
     .delete(validator.params(paramsSchema), deleteMovieById)
   
-  return peopleRouter
+  return movieRouter
 }
 
 module.exports = router

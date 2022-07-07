@@ -18,9 +18,11 @@ require('./database/db')
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 
-app.all(
+ app.all(
    '/*', 
-     jwt({secret: process.env.SECRET, algorithms: ['HS256']}).unless({     path: ['/auth/login', '/auth/register']  })
+    expressjwt({secret: process.env.SECRET, algorithms: ['HS256']}).unless({ 
+      path: ['/auth/login', '/auth/register']  
+    })
  ) /*se necesita el token para poder acceder a todos los endpoints menos en unless*/
 
  app.use((err, _, res, next) => {

@@ -13,12 +13,12 @@ const querySchema = Joi.object({
 })
 
 const bodySchema = Joi.object({
-    title: joi.string.min(3).max(45).required,
-    director: joi.string.min(3).max(30).required,
-    year: joi.number.min(4).max(4).required,
-    gender: joi.string.min(3).max(30).required,
-    actors: joi.string.min(3).max(60).required,
-    review: joi.string.max(200).required,
+    title: Joi.string().alphanum().min(3).max(45).required,
+    director: Joi.string().alphanum().min(3).max(30).required,
+    year: Joi.number().min(4).max(4).required,
+    gender: Joi.string().alphanum().min(3).max(30).required,
+    actors: Joi.string().alphanum().min(3).max(60).required,
+    review: Joi.string().alphanum().max(200).required,
 })
 
 module.exports = { paramsSchema, bodySchema, querySchema  }
